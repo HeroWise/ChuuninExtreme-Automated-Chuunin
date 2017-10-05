@@ -1,0 +1,10 @@
+name: NRTNAutomatedChuuninExams
+main: com.topobon.nrtnchuunin.ChuuninExtreme
+author: HeroWise
+version: 1
+
+commands:
+  chuunin:
+    description: Your description
+    usage: /chuunin
+    aliases: ce
