@@ -14,7 +14,7 @@ import com.topobon.nrtnchuunin.utils.Utility;
 
 public class ChuuninExam {
 	private static ArrayList<String> wordLists = new ArrayList<String>();
-	
+
 	private static ArrayList<Participant> participants = new ArrayList<Participant>();
 	private static ArrayList<Participant> fighting = new ArrayList<Participant>();
 	private static Location locationA;
@@ -54,6 +54,7 @@ public class ChuuninExam {
 		wordOfTheGame = generateRandomWord();
 		System.out.println(wordOfTheGame);
 		participants.clear();
+		fighting.clear();
 	}
 
 	/**
@@ -76,9 +77,11 @@ public class ChuuninExam {
 	public static ArrayList<Participant> getParticipantList() {
 		return participants;
 	}
+
 	public static ArrayList<Participant> getFighting() {
-		return participants;
+		return fighting;
 	}
+
 	public static Participant getParticipantObject(Player player) {
 		for (Participant p : getParticipantList()) {
 			if (p.getPlayer().equals(player)) {
@@ -147,26 +150,17 @@ public class ChuuninExam {
 	}
 
 	private static int time;
-	private static int counter = 1;
+	// private static int counter = 1;
 
 	public static void startTimer(int seconds) {
 		time = seconds;
-		counter--;
-		System.out.println("Cancelling task because counter is: " + counter);
+
+		// System.out.println("Cancelling task because counter is: " + counter);
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
 				if (isChuuninOn) {
-					
-					if (counter != 0) {
-						this.cancel();
-						counter = 1;
-						System.out.println("Cancelling task because counter is: " + counter);
-						this.cancel();
-					}
-					System.out.println("test");
-					
 
 					if (time == 3) {
 						Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&a&l3"));
@@ -179,8 +173,7 @@ public class ChuuninExam {
 					}
 					if (time == 0) {
 						Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&2&lGO!"));
-						counter = 1;
-						
+
 						this.cancel();
 					}
 					time--;
@@ -189,12 +182,48 @@ public class ChuuninExam {
 				}
 
 			}
-		}.runTaskTimer(ChuuninExtreme.instance, 0,20);
+		}.runTaskTimer(ChuuninExtreme.instance, 0, 20);
 
 	}
 
-	public static int getNumberOfWinners() {
-		//FIX TODO
+	public static void setNumberOfWinners(int numberOfWinner) {
+		// FIX TODO
+		if (getNumberOfContestants() == 4) {
+			if (numberOfWinner == 1) {
+				setNumberOfPointsToWin(2);
+
+			}
+			if (numberOfWinner == 2) {
+				setNumberOfPointsToWin(1);
+
+			}
+		}
+		if (getNumberOfContestants() == 2) {
+			if (numberOfWinner == 1) {
+				setNumberOfPointsToWin(1);
+
+			}
+			if (numberOfWinner == 2) {
+				setNumberOfPointsToWin(1);
+
+			}
+		}
+		// Going with this
+		if (getNumberOfContestants() == 8) {
+			// Going with this
+			if (numberOfWinner == 1) {
+				setNumberOfPointsToWin(3);
+
+			}
+			if (numberOfWinner == 2) {
+				setNumberOfPointsToWin(2);
+
+			}
+		}
+
+	}
+
+	public static int getNumberOfPointsToWin() {
 		return numberOfPointsToWin;
 	}
 

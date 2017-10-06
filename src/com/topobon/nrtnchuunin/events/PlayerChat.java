@@ -6,14 +6,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.topobon.nrtnchuunin.ChuuninExam;
 import com.topobon.nrtnchuunin.ChuuninExtreme;
+import com.topobon.nrtnchuunin.gameprocessing.GameManager;
 import com.topobon.nrtnchuunin.gameprocessing.Participant;
 import com.topobon.nrtnchuunin.utils.Utility;
 
 public class PlayerChat implements Listener {
-	ChuuninExtreme instance;
+	static ChuuninExtreme instance;
 	private int counterForPlayers = 0;
 
 	public PlayerChat(ChuuninExtreme instance) {
@@ -37,7 +39,9 @@ public class PlayerChat implements Listener {
 						return;
 					} else {
 						Participant participant = new Participant(player);
+						participant.setNumberOfRoundsWon(0);
 						ChuuninExam.getParticipantList().add(participant);
+						ChuuninExam.getFighting().clear();
 						participant.getPlayer()
 								.sendMessage(Utility.decodeMessage("&bYou have entered the Chuunin Exams!"));
 						participant.getPlayer().teleport(ChuuninExam.getSpawnLocation());
@@ -95,16 +99,43 @@ public class PlayerChat implements Listener {
 							"&c&l◉&3 " + ChuuninExam.getParticipantList().get(i).getPlayer().getName() + ""));
 
 				}
-
+				Bukkit.broadcastMessage(Utility.decodeMessage("&b The fights will start in 2 mins!"));
+				startTimer(4); // CHange
 				// if Counter is maxed
 				counterForPlayers = 0;
 				ChuuninExam.setChatOn(false);
-				if (ChuuninExam.getParticipantList().size() == ChuuninExam.getNumberOfContestants()) {
-					Bukkit.broadcastMessage(Utility.decodeMessage("&bThe First fight begins in:"));
-					ChuuninExam.startTimer(3);
-				}
 
 			}
 		}
+	}
+
+	private static int time;
+
+	public static void startTimer(int seconds) {
+		time = seconds;
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				if (ChuuninExam.isChuuninOn()) {
+
+				
+					if (time == 0) {
+						
+						new GameManager(instance);
+						
+						
+						this.cancel();
+					}
+					time--;
+				} else {
+					
+					this.cancel();
+				}
+
+			}
+		}.runTaskTimer(ChuuninExtreme.instance, 0, 20);
+
 	}
 }

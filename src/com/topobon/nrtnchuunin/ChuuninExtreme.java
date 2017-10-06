@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.topobon.nrtnchuunin.commands.ChuuninExtremeCommands;
 import com.topobon.nrtnchuunin.events.PlayerChat;
+import com.topobon.nrtnchuunin.events.PlayerDeath;
 
 
 
@@ -23,6 +24,7 @@ public class ChuuninExtreme extends JavaPlugin {
 		this.getCommand("chuunin").setExecutor(new ChuuninExtremeCommands(this));
 		// Registering Events
 		Bukkit.getPluginManager().registerEvents(new PlayerChat(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerDeath(this), this);
 		/**
 		 * Creating new Logo Objects
 		 */
@@ -51,8 +53,8 @@ public class ChuuninExtreme extends JavaPlugin {
 		ChuuninExam.setLocationA(new Location(world, 1, 4, 3));
 		ChuuninExam.setLocationB(new Location(world, 1, 4, 3));
 		ChuuninExam.setSpawnLocation(new Location(world, 1, 2, 2));
-		ChuuninExam.setNumberOfContestants(1);
-		ChuuninExam.setNumberOfWinners();
+		ChuuninExam.setNumberOfContestants(4);
+		ChuuninExam.setNumberOfWinners(1);
 
 	}
 

@@ -2,9 +2,7 @@ package com.topobon.nrtnchuunin.gameprocessing;
 
 import org.bukkit.entity.Player;
 
-import de.bananaco.bpermissions.api.ApiLayer;
-import de.bananaco.bpermissions.api.Permission;
-import de.bananaco.bpermissions.api.util.CalculableType;
+
 
 public class Participant {
 	private Player player;
@@ -27,7 +25,7 @@ public class Participant {
 		return numberOfRoundsWon;
 	}
 
-	public Permission[] getInfo(Player player) {
-		return ApiLayer.getPermissions(player.getWorld().getName(),CalculableType.USER, player.getName());
-	}
+//	public Permission[] getInfo(Player player) {
+//		return ApiLayer.getPermissions(player.getWorld().getName(),CalculableType.USER, player.getName());
+//	}
 }
